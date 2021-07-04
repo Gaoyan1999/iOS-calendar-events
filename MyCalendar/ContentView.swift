@@ -25,55 +25,74 @@ struct ContentView: View {
     
     @ObservedObject var userData: ToDo = ToDo(data: [SingleTodo(title: "test", dueDate: Date())]);
     
-    
     @State var showEdit  = false;
     
     var body: some View {
         
-        ZStack {
-            NavigationView{
-                
-                        ScrollView(.vertical, showsIndicators: true){
-                            VStack {
-                                ForEach(self.userData.toDoList){
-                                    item in
-                                    if(!item.deleted){
-                                    SingleCardView(index: item.id)
-                                        .environmentObject(self.userData)
-                                        .padding(.top)
-                                        .padding(.horizontal)
-                                    }                                                                        
-                                }
-                            }
-                        }.navigationBarTitle("Todo List")
+        TabView {
+            NavigationView {
+                // view 1
+                       ZStack {
+                           NavigationView{
+               
+                                       ScrollView(.vertical, showsIndicators: true){
+                                           VStack {
+                                               ForEach(self.userData.toDoList){
+                                                   item in
+                                                   if(!item.deleted){
+                                                   SingleCardView(index: item.id)
+                                                       .environmentObject(self.userData)
+                                                       .padding(.top)
+                                                       .padding(.horizontal)
+                                                   }
+                                               }
+                                           }
+                                       }.navigationBarTitle("Todo List")
+                           }
+               
+               
+                           VStack {
+                               Spacer()
+                               HStack {
+                                   Spacer()
+               
+                                   Button(action: {
+                                       //action
+                                       self.showEdit = true;
+               
+                                   }){
+                                   Image(systemName: "plus.circle.fill")
+                                       .resizable().aspectRatio(contentMode: ContentMode.fit)
+                                       .frame(width: 80.0)
+                                       .foregroundColor(.blue)
+                                       .padding()
+                                   }.sheet(isPresented: self.$showEdit,content: {
+                                       EditingPage().environmentObject(self.userData)
+               
+                                   }) //sheet
+                               }
+                           }
+                       }
+                       
             }
+            .tabItem {
+                Image(systemName: "rectangle.grid.1x2.fill")
+                Text("Events")
+            }.tag(0)
+            
             
         
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                        
-                    Button(action: {
-                        //action
-                        self.showEdit = true;
-                        
-                    }){
-                    Image(systemName: "plus.circle.fill")
-                        .resizable().aspectRatio(contentMode: ContentMode.fit)
-                        .frame(width: 80.0)
-                        .foregroundColor(.blue)
-                        .padding()
-                    }.sheet(isPresented: self.$showEdit,content: {
-                        EditingPage().environmentObject(self.userData)
-                        
-                    }) //sheet
-                }
-            }
+            NavigationView {
+                
+                // view 2
+                CalendarReview()
+            }.tabItem {
+                Image(systemName: "calendar")
+                Text("Calendar")
+            }.tag(1)
         }
-        
-        
-        
+        .edgesIgnoringSafeArea(.top)
+                
     }
     
 }
@@ -131,8 +150,6 @@ struct SingleCardView : View{
                 .onTapGesture {
                     self.userData.check(id: self.index)
             }
-            
-            
         }.frame(height: 80)
         .background(Color.white)
         .cornerRadius(10)

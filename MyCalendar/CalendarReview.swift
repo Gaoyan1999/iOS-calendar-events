@@ -15,8 +15,12 @@ struct CalendarReview: View {
             
             VStack {
                 
-                oneMonth(year: 2021, month: 6)
-                oneMonth(year: 2021, month: 7)
+                ForEach(1..<13){
+                    i in oneMonth(year: 2021, month: i)
+                }
+                
+                
+                
                 
             }
             
@@ -41,10 +45,7 @@ struct oneMonth: View{
     
     var body: some View {        
         VStack {
-            
-            
             HStack {
-                
                 Group {
                     Text(String(self.year)).padding(.leading)
                     Text("-")
@@ -74,7 +75,7 @@ struct oneMonth: View{
                             col in
                             Text(self.dateCell[row][col])
                             .frame(width: 50,height: 50)
-                            .background(Color.green)
+                                .background(Color.blue)
                             .cornerRadius(10)
                          .shadow(radius: 10,x:0,y:10)                            
                     }
@@ -84,8 +85,7 @@ struct oneMonth: View{
                 
             }
             Spacer()
-        }
-        .frame(height: 500.0)
+        }        
     }
 }
 

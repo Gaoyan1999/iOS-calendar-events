@@ -17,9 +17,10 @@ class DateHelper:ObservableObject {
         let  days = getCountOfDaysInMonth(year: year, month: month);
         var rowOne : [String] = []
         
-        
+        if(firstDayOfWeek != 0){
         for _ in 0...firstDayOfWeek-1 {
             rowOne.append(String(""))
+        }
         }
         output.append(rowOne);
         
