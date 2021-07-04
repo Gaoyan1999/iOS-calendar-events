@@ -18,10 +18,6 @@ struct CalendarReview: View {
                 ForEach(1..<13){
                     i in oneMonth(year: 2021, month: i)
                 }
-                
-                
-                
-                
             }
             
         }
@@ -85,12 +81,9 @@ struct oneMonth: View{
                 
             }
             Spacer()
-        }        
+        }
     }
 }
-
-
-
 
 struct CalendarReview_Previews: PreviewProvider {
     static var previews: some View {

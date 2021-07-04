@@ -8,22 +8,22 @@
 
 import SwiftUI
 
-//func initUserData() -> [SingleTodo]{
-//    var output: [SingleTodo] = []
-//    if let dataStored = UserDefaults.standard.object(forKey: "todoList") as? Data {
-//        let data = try!decoder.decode([SingleTodo].self, from: dataStored)
-//        for item in data {
-//            if !item.deleted {
-//                output.append(SingleTodo(title: item.title, dueDate: item.dueDate, isChecked: item.isChecked,id : output.count))
-//            }
-//        }
-//    }
-//    return output;
-//}
+func initUserData() -> [SingleTodo]{
+    var output: [SingleTodo] = []
+    if let dataStored = UserDefaults.standard.object(forKey: "todoList") as? Data {
+        let data = try!decoder.decode([SingleTodo].self, from: dataStored)
+        for item in data {
+            if !item.deleted {
+                output.append(SingleTodo(title: item.title, dueDate: item.dueDate, isChecked: item.isChecked,id : output.count))
+            }
+        }
+    }
+    return output;
+}
 
 struct ContentView: View {
     
-    @ObservedObject var userData: ToDo = ToDo(data: [SingleTodo(title: "test", dueDate: Date())]);
+    @ObservedObject var userData: ToDo = ToDo(data: initUserData());
     
     @State var showEdit  = false;
     
